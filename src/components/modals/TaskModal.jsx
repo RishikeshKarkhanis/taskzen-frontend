@@ -60,19 +60,27 @@ function TaskModal({ isOpen, mode = "create", task = null, loading = false, onCl
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+
     if (!validate()) return;
 
-    onSubmit({
-      title,
-      description,
-      category,
-      priority,
-      status,
-      dueDate,
-    });
+    try {
 
-    onClose();
+      await onSubmit({
+        title,
+        description,
+        category,
+        priority,
+        status,
+        dueDate,
+      });
+
+      onClose();
+
+    } catch (error) {
+      // Modal open rahega agar request fail ho
+    }
+
   };
 
   return (

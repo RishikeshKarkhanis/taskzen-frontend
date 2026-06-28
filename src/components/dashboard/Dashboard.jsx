@@ -53,19 +53,15 @@ function Dashboard() {
     };
 
     const handleSaveTask = async (taskData) => {
-        try {
-            if (selectedTask) {
-                await updateExistingTask(selectedTask._id, taskData);
-            } else {
-                await createNewTask(taskData);
-            }
-
-            setSelectedTask(null);
-            setIsTaskModalOpen(false);
-
-        } catch (error) {
-            // Modal stays open if request fails
+        if (selectedTask) {
+            await updateExistingTask(selectedTask._id, taskData);
         }
+        else {
+            await createNewTask(taskData);
+        }
+
+        // setSelectedTask(null);
+        // setIsTaskModalOpen(false);
     };
 
     const handleSearch = (value) => {
