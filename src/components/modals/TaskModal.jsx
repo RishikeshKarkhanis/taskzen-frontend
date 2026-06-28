@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "../common/Button";
-import { X } from "lucide-react";
+import { X, LoaderCircle } from "lucide-react";
 
-function TaskModal({ isOpen, mode = "create", task = null, onClose, onSubmit }) {
+function TaskModal({ isOpen, mode = "create", task = null, loading = false, onClose, onSubmit }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Personal");
@@ -20,8 +20,8 @@ function TaskModal({ isOpen, mode = "create", task = null, onClose, onSubmit }) 
       setPriority(task.priority || "Medium");
       setStatus(task.status || "Todo");
       setDueDate(task.dueDate || "");
-    } 
-    
+    }
+
     else {
       setTitle("");
       setDescription("");
@@ -271,8 +271,19 @@ function TaskModal({ isOpen, mode = "create", task = null, onClose, onSubmit }) 
 
             <Button
               onClick={handleSubmit}
+              disabled={loading}
             >
-              {mode === "create" ? "Save Task" : "Update Task"}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <LoaderCircle
+                    size={16}
+                    className="animate-spin"
+                  />
+                  {mode === "create" ? "Saving..." : "Updating..."}
+                </span>
+              ) : (
+                mode === "create" ? "Save Task" : "Update Task"
+              )}
             </Button>
 
           </div>

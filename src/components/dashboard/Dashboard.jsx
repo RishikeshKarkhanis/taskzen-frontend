@@ -24,7 +24,7 @@ const handleCreateTask = () => { setIsTaskModalOpen(true); };
 
 function Dashboard() {
 
-    const { tasks, loading, createNewTask, updateExistingTask, deleteExistingTask } = useTasks();
+    const { tasks, loading, actionLoading, createNewTask, updateExistingTask, deleteExistingTask } = useTasks();
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
     const [search, setSearch] = useState("");
@@ -148,6 +148,7 @@ function Dashboard() {
                     isOpen={isTaskModalOpen}
                     mode={selectedTask ? "edit" : "create"}
                     task={selectedTask}
+                    loading={actionLoading}
                     onClose={() => {
                         setIsTaskModalOpen(false);
                         setSelectedTask(null);
