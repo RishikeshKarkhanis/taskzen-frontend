@@ -274,15 +274,17 @@ function TaskModal({ isOpen, mode = "create", task = null, loading = false, onCl
               disabled={loading}
             >
               {loading ? (
-                <span className="flex items-center gap-2">
+                <>
                   <LoaderCircle
                     size={16}
                     className="animate-spin"
                   />
-                  {mode === "create" ? "Saving..." : "Updating..."}
-                </span>
+                  Saving...
+                </>
               ) : (
-                mode === "create" ? "Save Task" : "Update Task"
+                mode === "create"
+                  ? "Save Task"
+                  : "Update Task"
               )}
             </Button>
 
