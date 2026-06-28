@@ -5,26 +5,12 @@ import ViewSelector from "./ViewSelector";
 import TaskCard from "../task/TaskCard";
 import TaskGrid from "../task/TaskGrid";
 import TaskModal from "../modals/TaskModal";
-import { dummyTasks } from "../../data/dummyTasks";
 import EmptyState from "../task/EmptyState";
+import toast from "react-hot-toast";
 
-import { useState } from "react";
+import { getTasks, createTask, updateTask, deleteTask } from "../../api/taskApi";
+import { useState, useEffect } from "react";
 
-const handleSearch = (value) => {
-    console.log(value);
-};
-
-const handleFilter = () => {
-    console.log("Filter");
-};
-
-const handleSort = () => {
-    console.log("Sort");
-};
-
-const handleRefresh = () => {
-    console.log("Refresh");
-};
 
 const handleCreateTask = () => {
     setIsTaskModalOpen(true);
@@ -33,7 +19,7 @@ const handleCreateTask = () => {
 function Dashboard() {
 
     // const [selectedView, setSelectedView] = useState("all");
-    const [tasks, setTasks] = useState(dummyTasks);
+    const [tasks, setTasks] = useState([]);
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
     const [search, setSearch] = useState("");
@@ -41,6 +27,19 @@ function Dashboard() {
     const [priorityFilter, setPriorityFilter] = useState("All");
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [statusFilter, setStatusFilter] = useState("All");
+
+    const fetchTasks = async () => {
+        try {
+            const response = await getTasks();
+            setTasks(response.data.data);
+        } catch (error) {
+            console.error("Failed to fetch tasks:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
 
     const taskStats = {
         total: tasks.length,
@@ -99,13 +98,12 @@ function Dashboard() {
     });
 
     const sortedTasks = [...filteredTasks].sort((a, b) => {
-
         if (sortBy === "newest") {
-            return new Date(b.dueDate) - new Date(a.dueDate);
+            return new Date(b.createdAt) - new Date(a.createdAt);
         }
 
         if (sortBy === "oldest") {
-            return new Date(a.dueDate) - new Date(b.dueDate);
+            return new Date(a.createdAt) - new Date(b.createdAt);
         }
 
         if (sortBy === "priority") {
@@ -130,54 +128,43 @@ function Dashboard() {
         setIsTaskModalOpen(true);
     };
 
-    const handleSaveTask = (taskData) => {
+    const handleSaveTask = async (taskData) => {
+        try {
+            if (selectedTask) {
+                await updateTask(selectedTask._id, taskData);
+                toast.success("Task updated successfully!");
+            } 
+            else {
+                await createTask(taskData);
+                toast.success("Task created successfully!");
+            }
+            await fetchTasks();
+            setSelectedTask(null);
+            setIsTaskModalOpen(false);
 
-        if (selectedTask) {
-
-            setTasks((prev) =>
-                prev.map((task) =>
-                    task.id === selectedTask.id
-                        ? {
-                            ...task,
-                            ...taskData,
-                        }
-                        : task
-                )
-            );
-
-        } else {
-
-            const newTask = {
-
-                id: Date.now(),
-
-                ...taskData,
-
-            };
-
-            setTasks((prev) => [newTask, ...prev]);
-
+        } catch (error) {
+            console.error("Failed to save task:", error);
+            toast.error("Something went wrong!");
         }
-
-        setSelectedTask(null);
-
-        setIsTaskModalOpen(false);
-
     };
 
 
     const handleEdit = (id) => {
-
-        const task = tasks.find((t) => t.id === id);
+        const task = tasks.find((t) => t._id === id);
         setSelectedTask(task);
         setIsTaskModalOpen(true);
-
     };
 
-    const handleDelete = (id) => {
-        setTasks((prev) =>
-            prev.filter((task) => task.id !== id)
-        );
+    const handleDelete = async (id) => {
+        try {
+            await deleteTask(id);
+            toast.success("Task deleted successfully!");
+            await fetchTasks();
+
+        } catch (error) {
+            console.error("Failed to delete task:", error);
+            toast.error("Something went wrong!");
+        }
     };
 
     const handleSearch = (value) => {
@@ -186,11 +173,8 @@ function Dashboard() {
 
     const handleSort = () => {
         const options = ["newest", "oldest", "priority"];
-
         const currentIndex = options.indexOf(sortBy);
-
         const nextIndex = (currentIndex + 1) % options.length;
-
         setSortBy(options[nextIndex]);
     };
 
@@ -218,8 +202,6 @@ function Dashboard() {
                     sortBy={sortBy}
                     onSearchChange={handleSearch}
                     onSortClick={handleSort}
-                    onFilterClick={handleFilter}
-                    onRefresh={handleRefresh}
                 />
 
                 <ViewSelector

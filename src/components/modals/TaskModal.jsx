@@ -80,212 +80,214 @@ function TaskModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-black/50 overflow-y-auto">
+      <div className="flex min-h-full items-center justify-center p-4">
 
-      <div className="w-full max-w-2xl rounded-2xl bg-white shadow-2xl">
+        <div className="w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col">
 
-        {/* Header */}
+          {/* Header */}
 
-        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
 
-          <h2 className="text-2xl font-bold text-slate-900">
-            {mode === "create" ? "Create New Task" : "Edit Task"}
-          </h2>
+            <h2 className="text-2xl font-bold text-slate-900">
+              {mode === "create" ? "Create New Task" : "Edit Task"}
+            </h2>
 
-          <button
-            onClick={onClose}
-            className="rounded-lg p-2 hover:bg-slate-100 transition"
-          >
-            <X size={20} />
-          </button>
-
-        </div>
-
-        {/* Body */}
-
-        <div className="space-y-5 p-6">
-
-          {/* Title */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium">
-              Task Title *
-            </label>
-
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
-            />
-
-            {errors.title && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.title}
-              </p>
-            )}
-
-          </div>
-
-          {/* Description */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium">
-              Description
-            </label>
-
-            <textarea
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full resize-none rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
-            />
-
-            {errors.description && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.description}
-              </p>
-            )}
-
-          </div>
-
-          {/* Category */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium">
-              Category
-            </label>
-
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+            <button
+              onClick={onClose}
+              className="rounded-lg p-2 hover:bg-slate-100 transition"
             >
-              <option>College</option>
-              <option>Work</option>
-              <option>Personal</option>
-              <option>Health</option>
-            </select>
+              <X size={20} />
+            </button>
 
           </div>
 
-          {/* Priority */}
+          {/* Body */}
 
-          <div>
+          <div className="flex-1 overflow-y-auto space-y-5 p-6">
 
-            <label className="mb-2 block text-sm font-medium">
-              Priority
-            </label>
+            {/* Title */}
 
-            <div className="flex gap-6">
+            <div>
 
-              {["Low", "Medium", "High"].map((item) => (
+              <label className="mb-2 block text-sm font-medium">
+                Task Title *
+              </label>
 
-                <label
-                  key={item}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              />
 
-                  <input
-                    type="radio"
-                    value={item}
-                    checked={priority === item}
-                    onChange={(e) => setPriority(e.target.value)}
-                  />
+              {errors.title && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.title}
+                </p>
+              )}
 
-                  {item}
+            </div>
 
-                </label>
+            {/* Description */}
 
-              ))}
+            <div>
+
+              <label className="mb-2 block text-sm font-medium">
+                Description
+              </label>
+
+              <textarea
+                rows={4}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full resize-none rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              />
+
+              {errors.description && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.description}
+                </p>
+              )}
+
+            </div>
+
+            {/* Category */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium">
+                Category
+              </label>
+
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              >
+                <option>College</option>
+                <option>Work</option>
+                <option>Personal</option>
+                <option>Health</option>
+              </select>
+
+            </div>
+
+            {/* Priority */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium">
+                Priority
+              </label>
+
+              <div className="flex flex-wrap gap-6">
+
+                {["Low", "Medium", "High"].map((item) => (
+
+                  <label
+                    key={item}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+
+                    <input
+                      type="radio"
+                      value={item}
+                      checked={priority === item}
+                      onChange={(e) => setPriority(e.target.value)}
+                    />
+
+                    {item}
+
+                  </label>
+
+                ))}
+
+              </div>
+
+            </div>
+
+            {/* Status */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium">
+                Status
+              </label>
+
+              <div className="flex flex-wrap gap-6">
+
+                {["Todo", "In Progress", "Completed"].map((item) => (
+
+                  <label
+                    key={item}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+
+                    <input
+                      type="radio"
+                      value={item}
+                      checked={status === item}
+                      onChange={(e) => setStatus(e.target.value)}
+                    />
+
+                    {item}
+
+                  </label>
+
+                ))}
+
+              </div>
+
+            </div>
+
+            {/* Due Date */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium">
+                Due Date *
+              </label>
+
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              />
+
+              {errors.dueDate && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.dueDate}
+                </p>
+              )}
 
             </div>
 
           </div>
 
-          {/* Status */}
+          {/* Footer */}
 
-          <div>
+          <div className="flex justify-end gap-3 border-t border-slate-200 p-6">
 
-            <label className="mb-2 block text-sm font-medium">
-              Status
-            </label>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+            >
+              Cancel
+            </Button>
 
-            <div className="flex flex-wrap gap-6">
-
-              {["Todo", "In Progress", "Completed"].map((item) => (
-
-                <label
-                  key={item}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-
-                  <input
-                    type="radio"
-                    value={item}
-                    checked={status === item}
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-
-                  {item}
-
-                </label>
-
-              ))}
-
-            </div>
+            <Button
+              onClick={handleSubmit}
+            >
+              {mode === "create" ? "Save Task" : "Update Task"}
+            </Button>
 
           </div>
-
-          {/* Due Date */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-medium">
-              Due Date *
-            </label>
-
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
-            />
-
-            {errors.dueDate && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.dueDate}
-              </p>
-            )}
-
-          </div>
-
-        </div>
-
-        {/* Footer */}
-
-        <div className="flex justify-end gap-3 border-t border-slate-200 p-6">
-
-          <Button
-            variant="secondary"
-            onClick={onClose}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            onClick={handleSubmit}
-          >
-            {mode === "create" ? "Save Task" : "Update Task"}
-          </Button>
 
         </div>
 
       </div>
-
     </div>
   );
 }

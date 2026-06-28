@@ -12,7 +12,7 @@ function TaskGrid({
       {tasks.map((task) => (
 
         <TaskCard
-          key={task.id}
+          key={task._id}
 
           title={task.title}
           description={task.description}
@@ -23,8 +23,8 @@ function TaskGrid({
 
           dueDate={task.dueDate}
 
-          onEdit={() => onEdit(task.id)}
-          onDelete={() => onDelete(task.id)}
+          onEdit={() => onEdit(task._id)}
+          onDelete={() => onDelete(task._id)}
         />
 
       ))}

@@ -15,6 +15,10 @@ function TaskCard({
   onDelete,
 }) {
 
+  const isOverdue =
+    new Date(dueDate) < new Date() &&
+    status !== "Completed";
+
   const priorityStyles = {
     High: {
       border: "border-t-red-500",
@@ -103,7 +107,13 @@ function TaskCard({
 
           <CalendarDays size={16} />
 
-          <span>{dueDate}</span>
+          <span className={isOverdue ? "text-red-500 font-medium" : ""}>
+            {new Date(dueDate).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </span>
 
         </div>
 
