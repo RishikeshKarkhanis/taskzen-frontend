@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import { X } from "lucide-react";
 
-function TaskModal({
-  isOpen,
-  mode = "create",
-  task = null,
-  onClose,
-  onSubmit,
-}) {
+function TaskModal({ isOpen, mode = "create", task = null, onClose, onSubmit }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Personal");
@@ -26,7 +20,9 @@ function TaskModal({
       setPriority(task.priority || "Medium");
       setStatus(task.status || "Todo");
       setDueDate(task.dueDate || "");
-    } else {
+    } 
+    
+    else {
       setTitle("");
       setDescription("");
       setCategory("Personal");
@@ -133,9 +129,7 @@ function TaskModal({
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium">
-                Description
-              </label>
+              <label className="mb-2 block text-sm font-medium">Description</label>
 
               <textarea
                 rows={4}
@@ -156,9 +150,7 @@ function TaskModal({
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium">
-                Category
-              </label>
+              <label className="mb-2 block text-sm font-medium">Category</label>
 
               <select
                 value={category}
