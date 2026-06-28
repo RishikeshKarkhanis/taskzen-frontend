@@ -11,7 +11,6 @@ function useTasks() {
 
     const fetchTasks = async () => {
         try {
-            setLoading(true);
             const response = await getTasks();
             setTasks(response.data.data);
         }
@@ -19,13 +18,21 @@ function useTasks() {
             console.error(error);
             toast.error("Failed to fetch tasks.");
         }
-        finally {
-            setLoading(false);
-        }
     };
 
     useEffect(() => {
-        fetchTasks();
+
+        const loadTasks = async () => {
+            try {
+                setLoading(true);
+                await fetchTasks();
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadTasks();
+
     }, []);
 
     const createNewTask = async (taskData) => {
