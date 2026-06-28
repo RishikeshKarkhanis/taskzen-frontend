@@ -10,6 +10,7 @@ import EmptyState from "../task/EmptyState";
 
 // Dependencies
 import toast from "react-hot-toast";
+import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import useTasks from "../../hooks/useTasks";
 
@@ -54,7 +55,7 @@ function Dashboard() {
     const handleSaveTask = async (taskData) => {
         if (selectedTask) {
             await updateExistingTask(selectedTask._id, taskData);
-        } 
+        }
         else { await createNewTask(taskData); }
         setSelectedTask(null);
         setIsTaskModalOpen(false);
@@ -73,10 +74,27 @@ function Dashboard() {
 
     if (loading) {
         return (
-            <main className="min-h-screen flex items-center justify-center bg-slate-50">
-                <p className="text-slate-500 text-lg">
-                    Loading tasks...
-                </p>
+            <main className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
+                <div className="flex flex-col items-center text-center">
+
+                    <LoaderCircle
+                        size={56}
+                        className="text-emerald-600 animate-spin"
+                    />
+
+                    <h1 className="mt-6 text-3xl font-bold text-slate-900">
+                        Loading <span className="text-emerald-600">TaskZen</span>...
+                    </h1>
+
+                    <p className="mt-3 text-slate-600 text-lg">
+                        Please wait while the backend starts on Render.
+                    </p>
+
+                    <p className="mt-2 text-sm text-slate-400">
+                        This may take up to 30–60 seconds if the server is waking up.
+                    </p>
+
+                </div>
             </main>
         );
     }
